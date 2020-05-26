@@ -8,6 +8,9 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    const isDuplicate = persons.some(person => person.name === newName)
+    if (isDuplicate) return window.alert(`${newName} is already added to phonebook`)
+
     const person = {
       name: newName
     }
