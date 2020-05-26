@@ -14,7 +14,7 @@ const Part = ({ part }) => (
 )
 
 const Total = ({ parts }) => (
-  <b>Total of {parts.reduce((acc, cur) => acc += cur.exercises, 0)} exercises</b>
+  <b>Total of {parts.reduce((total, course) => total += course.exercises, 0)} exercises</b>
 )
 
 const Course = ({ course }) => (
