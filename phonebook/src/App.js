@@ -2,9 +2,14 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-1234567' }
   ])
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+
+  const styles = {
+    label: { display: 'block' }
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -12,20 +17,27 @@ const App = () => {
     if (isDuplicate) return window.alert(`${newName} is already added to phonebook`)
 
     const person = {
-      name: newName
+      name: newName,
+      number: newNumber,
     }
 
     setPersons([...persons, person])
   }
 
+  const Person = ({person}) => (
+    <p>{person.name} {person.number}</p>
+  )
+
   return (
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>name:</label>
-          <input value={newName} onChange={e => setNewName(e.target.value)}/>
-        </div>
+        <label htmlFor="name" style={styles.label}>
+          Name: <input type='text' id='name' value={newName} onChange={e => setNewName(e.target.value)}/>
+        </label>
+        <label htmlFor="phone" style={styles.label}>
+          Number: <input type='text' id='phone' value={newNumber} onChange={e => setNewNumber(e.target.value)}/>
+        </label>
         <div>
           <button
             type="submit">
@@ -35,7 +47,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <div>
-        {persons.map(person => <p key={person.name}>{person.name}</p>)}
+        {persons.map(person => <Person key={person.name} person={person}/>)}
       </div>
     </div>
   )
