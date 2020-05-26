@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-
+import Form from './components/form'
+import Input from './components/input'
+import Header from './components/header'
+import Persons from './components/persons'
 const App = () => {
   const [ filter, setFilter ] = useState('')
   const [ newName, setNewName ] = useState('')
@@ -11,9 +14,6 @@ const App = () => {
     { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ])
 
-  const styles = {
-    label: { display: 'block' }
-  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -28,37 +28,28 @@ const App = () => {
     setPersons([...persons, person])
   }
 
-  const Person = ({person}) => (
-    <p>{person.name} {person.number}</p>
-  )
-
-  const personsToShow = filter ? persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase(), 0)): persons
+  const personsToShow = filter ?
+    persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase(), 0))
+    : persons
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <label htmlFor="filter" style={styles.label}>
-        filter shown with: <input type='text' id='filter' value={filter} onChange={e => setFilter(e.target.value)}/>
-      </label>
-      <form onSubmit={handleSubmit}>
-        <h2>Add a new</h2>
-        <label htmlFor="name" style={styles.label}>
-          Name: <input type='text' id='name' value={newName} onChange={e => setNewName(e.target.value)}/>
-        </label>
-        <label htmlFor="phone" style={styles.label}>
-          Number: <input type='text' id='phone' value={newNumber} onChange={e => setNewNumber(e.target.value)}/>
-        </label>
-        <div>
-          <button
-            type="submit">
-            add
-          </button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <div>
-        {personsToShow.map(person => <Person key={person.name} person={person}/>)}
-      </div>
+      <Header title='Phonebook'/>
+      <Input
+        label='filter shown with'
+        name='filter'
+        value={filter}
+        onChange={setFilter}
+      />
+      <Form
+        onSubmit={handleSubmit}
+        inputs={[
+          {name: 'Name', value: newName, onChange: setNewName},
+          {name: 'Phone', value: newNumber, onChange: setNewNumber}
+        ]}
+      />
+      <Header title='Numbers'/>
+      <Persons persons={personsToShow}/>
     </div>
   )
 }
