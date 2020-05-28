@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Weather from './Weather';
 const Countries = ({countries, setQuery}) => {
   if (countries.length === 0) {
     return (
@@ -36,6 +36,7 @@ const Countries = ({countries, setQuery}) => {
           ))}
         </ul>
         <img style={{height: '128px'}}src={country.flag} alt={`flag of ${country.name}`}/>
+        <Weather countryName={country.name}/>
       </div>
     )
   }
