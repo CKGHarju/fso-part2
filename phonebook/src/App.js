@@ -1,19 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import Form from './components/form'
 import Input from './components/input'
 import Header from './components/header'
 import Persons from './components/persons'
 const App = () => {
-  const [ filter, setFilter ] = useState('')
-  const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+  const [filter, setFilter] = useState('')
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [persons, setPersons] = useState([])
 
+  useEffect(() => {
+    axios.get('http://localhost:3001/persons').then(({data}) => setPersons(data))
+  }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -34,7 +33,7 @@ const App = () => {
 
   return (
     <div>
-      <Header title='Phonebook'/>
+      <Header title='Phonebook' />
       <Input
         label='filter shown with'
         name='filter'
@@ -44,12 +43,12 @@ const App = () => {
       <Form
         onSubmit={handleSubmit}
         inputs={[
-          {name: 'Name', value: newName, onChange: setNewName},
-          {name: 'Phone', value: newNumber, onChange: setNewNumber}
+          { name: 'Name', value: newName, onChange: setNewName },
+          { name: 'Phone', value: newNumber, onChange: setNewNumber }
         ]}
       />
-      <Header title='Numbers'/>
-      <Persons persons={personsToShow}/>
+      <Header title='Numbers' />
+      <Persons persons={personsToShow} />
     </div>
   )
 }
