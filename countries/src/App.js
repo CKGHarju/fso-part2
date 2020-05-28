@@ -13,7 +13,6 @@ const App = () => {
   }, [url])
 
   useEffect(() => {
-    console.log('filter')
     const filtered = countries.filter(country => country.name.toLowerCase().includes(query.toLowerCase()))
     setFilteredCountries(filtered)
   }, [query, countries])
@@ -28,7 +27,7 @@ const App = () => {
           onChange={e => setQuery(e.target.value)}
         />
       </div>
-      <Countries countries={filteredCountries}/>
+      <Countries countries={filteredCountries} setQuery={setQuery}/>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Countries = ({countries}) => {
+const Countries = ({countries, setQuery}) => {
   if (countries.length === 0) {
     return (
       <p>No matches</p>
@@ -14,7 +14,10 @@ const Countries = ({countries}) => {
       <div>
         {
           countries.map(country => (
-            <p key={country.alpha3Code}>{country.name}</p>
+            <div key={country.alpha3Code}>
+              <span>{country.name}</span>
+              <button onClick={() => setQuery(country.name)}>show</button>
+            </div>
           ))
         }
       </div>
