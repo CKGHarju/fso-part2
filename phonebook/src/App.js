@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Form from './components/form'
 import Input from './components/input'
 import Header from './components/header'
 import Persons from './components/persons'
+import personsService from './services/persons.service'
+
 const App = () => {
   const [filter, setFilter] = useState('')
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [persons, setPersons] = useState([])
 
-  useEffect(() => {
-    axios.get('http://localhost:3001/persons').then(({data}) => setPersons(data))
-  }, [])
+  useEffect(() => { personsService.getAll().then(setPersons) }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -24,7 +23,7 @@ const App = () => {
       number: newNumber,
     }
 
-    axios.post('http://localhost:3001/persons', person).then(({data}) => setPersons([...persons, person]))
+    personsService.create(person).then(data => setPersons([...persons, data]))
   }
 
   const personsToShow = filter ?
