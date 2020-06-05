@@ -1,5 +1,5 @@
 import React from 'react'
 
-export default ({person}) => {
-  return <p>{person.name} {person.number}</p>
+export default ({person, handleRemove}) => {
+  return <p>{person.name} {person.number} <button onClick={() => handleRemove(person)}>delete</button></p>
 }

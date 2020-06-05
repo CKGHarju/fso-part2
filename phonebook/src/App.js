@@ -26,6 +26,12 @@ const App = () => {
     personsService.create(person).then(data => setPersons([...persons, data]))
   }
 
+  const handleRemove = (person) => {
+    if (window.confirm(`Delete ${person.name}?`)) {
+      personsService.remove(person.id).then(() => setPersons(persons.filter(item => item.id !== person.id)))
+    }
+  }
+
   const personsToShow = filter ?
     persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase(), 0))
     : persons
@@ -47,7 +53,7 @@ const App = () => {
         ]}
       />
       <Header title='Numbers' />
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} handleRemove={handleRemove} />
     </div>
   )
 }
