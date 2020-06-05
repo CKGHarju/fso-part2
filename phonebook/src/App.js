@@ -24,7 +24,7 @@ const App = () => {
       number: newNumber,
     }
 
-    setPersons([...persons, person])
+    axios.post('http://localhost:3001/persons', person).then(({data}) => setPersons([...persons, person]))
   }
 
   const personsToShow = filter ?
