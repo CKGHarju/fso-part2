@@ -53,7 +53,9 @@ const App = () => {
 
   const handleRemove = (person) => {
     if (window.confirm(`Delete ${person.name}?`)) {
-      personsService.remove(person.id).then(() => removePersonFromState(person))
+      personsService.remove(person.id)
+        .then(() => removePersonFromState(person))
+        .catch(error => setError(`Information of ${person.name} has already been removed from server`))
     }
   }
 
