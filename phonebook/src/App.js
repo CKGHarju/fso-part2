@@ -3,6 +3,7 @@ import Form from './components/form'
 import Input from './components/input'
 import Header from './components/header'
 import Persons from './components/persons'
+import Notification from './components/notification'
 import personsService from './services/persons.service'
 
 const App = () => {
@@ -10,8 +11,14 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [persons, setPersons] = useState([])
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   useEffect(() => { personsService.getAll().then(setPersons) }, [])
+  useEffect(() => {
+    if (error) setTimeout(() => setError(''), 2000)
+    if (success) setTimeout(() => setSuccess(''), 2000)
+  }, [error, success])
 
   const addPersonToState = person => setPersons([...persons, person])
   const replacePersonInState = person => setPersons(persons.map(item => item.id === person.id ? person : item))
@@ -38,7 +45,10 @@ const App = () => {
       number: newNumber,
     }
 
-    personsService.create(person).then(addPersonToState)
+    personsService.create(person).then((person) => {
+      addPersonToState(person)
+      setSuccess(`Added ${person.name}`)
+    })
   }
 
   const handleRemove = (person) => {
@@ -54,6 +64,7 @@ const App = () => {
   return (
     <div>
       <Header title='Phonebook' />
+      <Notification error={error} success={success}/>
       <Input
         label='filter shown with'
         name='filter'
